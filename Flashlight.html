@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashlight Toggle</title>
+</head>
+<body>
+    <h1>Flashlight Control</h1>
+    <button id="toggle">Toggle Flashlight</button>
+
+    <script>
+        document.getElementById("toggle").addEventListener("click", function() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                    .then(function(stream) {
+                        const track = stream.getVideoTracks()[0];
+                        track.applyConstraints({ advanced: [{ torch: true }] });
+                    })
+                    .catch(function(err) {
+                        console.error("Error accessing camera: " + err);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
